@@ -5,7 +5,9 @@ import io.ktor.server.application.Application
 fun Application.module() {
     // invoke template configuration module here
     configureSerialization()
+    configureTemplates()
     configureRouting()
+
 }
 
 fun main(args: Array<String>) {

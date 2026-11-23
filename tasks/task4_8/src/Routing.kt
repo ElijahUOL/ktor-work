@@ -14,15 +14,24 @@ val RoutingCall.uri get() = request.path() + "?" + request.queryString()
 // Routing configuration
 
 fun Application.configureRouting() {
-    routing {
+    fun Route.diceFormRoute() {
         get("/") {
             call.respondTemplate("form.peb", emptyMap())
         }
+    }
 
+    fun Route.rollResultRoute() {
         get("/roll") {
             val roll = DiceRoll(call.numDice, call.dieSides)
             val context = mapOf("roll" to roll, "reroll_uri" to call.uri)
             call.respondTemplate("result.peb", context)
         }
     }
+
+    routing {
+        diceFormRoute()
+        rollResultRoute()
+    }
+
+
 }

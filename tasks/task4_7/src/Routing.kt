@@ -12,7 +12,24 @@ fun Application.configureRouting() {
         }
 
         // Add route to handle POST requests containing form data
-
+        post("/roll") {
+            val params = call.receiveParameters()
+            val numDice = params["num_dice"]?.toInt() ?: 1
+            val dieSides = params["die_sides"]?.toInt() ?: 6
+            val roll = DiceRoll(numDice, dieSides)
+            call.respondTemplate("result.peb", mapOf("roll" to roll))
+        }
         // Add route to handle GET requests for URLs like /roll/3d8
+        get("/roll/{die_roll}") {
+
+            val dieRoll = call.parameters["die_roll"]?.split("d") ?: listOf(1, 6)
+            println(dieRoll)
+            val numDice = dieRoll[0].toInt()
+            val dieSides = dieRoll[1].toInt()
+            val roll = DiceRoll(numDice, dieSides)
+            // val roll = DiceRoll(1,6)
+            call.respondTemplate("result.peb", mapOf("roll" to roll))
+        }
+
     }
 }
